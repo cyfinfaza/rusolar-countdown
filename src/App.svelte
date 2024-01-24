@@ -80,7 +80,7 @@
 
 <style>
   h1 {
-    font-size: 20vw;
+    font-size: 23vw;
     line-height: 90%;
     margin: 0;
     margin-bottom: 2vw;
@@ -88,7 +88,7 @@
   }
   p {
     font-style: italic;
-    font-size: 3vw;
+    font-size: 5vw;
     margin: 0;
   }
   .currentTime {
