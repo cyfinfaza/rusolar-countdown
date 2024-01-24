@@ -72,7 +72,7 @@
       if (event.key === "Enter" || event.key === " ") attemptWakeLock();
     }}
     tabindex="0"
-    style:color={wakeLock ? "#00ff0066" : "#ff000066"}
+    style:color={wakeLock ? "#00ff0033" : "#ff000033"}
   >
     WL
   </span>
