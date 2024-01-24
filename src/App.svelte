@@ -28,7 +28,7 @@
 <main>
   <h1 on:click={() => toggleFullScreen()} tabindex="0">{daysUntil ?? "--"}</h1>
   <p>days until FSGP</p>
-  <p class="currentTime">{currentTime}</p>
+  <p class="currentTime">{currentTime ?? "--"}</p>
 </main>
 
 <style>
