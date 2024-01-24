@@ -84,7 +84,7 @@
     line-height: 90%;
     margin: 0;
     margin-bottom: 2vw;
-    cursor: pointer;
+    cursor: none;
   }
   p {
     font-style: italic;
