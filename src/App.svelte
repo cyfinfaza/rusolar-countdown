@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   let daysUntil = null;
   let currentTime = null;
+  let wakeLock = false;
 
   function toggleFullScreen() {
     if (!document.fullscreenElement) {
@@ -18,17 +19,63 @@
     daysUntil = difference >= 0 ? difference : null;
     currentTime = new Date(Date.now()).toLocaleString().split(",").join(" • ");
   }
+  function attemptWakeLock() {
+    if ("wakeLock" in navigator) {
+      navigator.wakeLock
+        .request("screen")
+        .then((wl) => {
+          wakeLock = true;
+          wl.addEventListener("release", () => {
+            wakeLock = false;
+          });
+        })
+        .catch((err) => {
+          console.error(`${err.name}, ${err.message}`);
+        });
+    }
+  }
   onMount(() => {
     recalculate();
+    attemptWakeLock();
     let countdownInterval = setInterval(() => recalculate(), 100);
-    return () => clearInterval(countdownInterval);
+    let wakeLockInterval = setInterval(
+      () => {
+        if (!wakeLock) attemptWakeLock();
+      },
+      1000 * 60 * 9
+    );
+    return () => {
+      clearInterval(countdownInterval);
+      clearInterval(wakeLockInterval);
+    };
   });
 </script>
 
 <main>
-  <h1 on:click={() => toggleFullScreen()} tabindex="0">{daysUntil ?? "--"}</h1>
+  <h1
+    on:click={() => toggleFullScreen()}
+    on:keydown={(event) => {
+      if (event.key === "Enter" || event.key === " ") toggleFullScreen();
+    }}
+    tabindex="0"
+  >
+    {daysUntil ?? "--"}
+  </h1>
   <p>days until FSGP</p>
-  <p class="currentTime">{currentTime ?? "--"}</p>
+  <p class="currentTime">
+    {currentTime ?? "--"}
+  </p>
+  <span
+    class="wl_ind"
+    on:click={() => attemptWakeLock()}
+    on:keydown={(event) => {
+      if (event.key === "Enter" || event.key === " ") attemptWakeLock();
+    }}
+    tabindex="0"
+    style:color={wakeLock ? "#00ff0066" : "#ff000066"}
+  >
+    WL
+  </span>
 </main>
 
 <style>
@@ -37,6 +84,7 @@
     line-height: 90%;
     margin: 0;
     margin-bottom: 2vw;
+    cursor: pointer;
   }
   p {
     font-style: italic;
@@ -52,5 +100,12 @@
     text-align: center;
     margin: 0;
     color: #ffffffaa;
+  }
+
+  .wl_ind {
+    position: fixed;
+    bottom: 2em;
+    right: 2em;
+    cursor: pointer;
   }
 </style>
