@@ -4,9 +4,14 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://polyfill.io/v3/polyfill.min.js"></script>
+    <script src="https://peterolson.github.io/BigInteger.js/BigInteger.min.js"></script>
     <title>Days until FSGP</title>
   </head>
   <body>
+    <script defer>
+      if (!window.BigInt) window.BigInt = bigInt;
+    </script>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
