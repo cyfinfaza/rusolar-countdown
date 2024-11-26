@@ -61,7 +61,7 @@
   >
     {daysUntil ?? "--"}
   </h1>
-  <p>days until driving chassis</p>
+  <p>{daysUntil === 1 ? "day" : "days"} until driving chassis</p>
   <p class="currentTime">
     {currentTime ?? "--"}
   </p>
