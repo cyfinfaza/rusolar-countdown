@@ -13,7 +13,7 @@
   }
   function recalculate() {
     const difference = Math.ceil(
-      (new Date("2024-11-27T00:00:00").getTime() - new Date().getTime()) /
+      (new Date("2024-12-12T00:00:00").getTime() - new Date().getTime()) /
         (1000 * 60 * 60 * 24)
     );
     daysUntil = difference >= 0 ? difference : null;
