@@ -13,7 +13,7 @@
   }
   function recalculate() {
     const difference = Math.ceil(
-      (new Date("2024-12-12T00:00:00").getTime() - new Date().getTime()) /
+      (new Date("2025-03-14T00:00:00").getTime() - new Date().getTime()) /
         (1000 * 60 * 60 * 24)
     );
     daysUntil = difference >= 0 ? difference : null;
@@ -61,7 +61,7 @@
   >
     {daysUntil ?? "--"}
   </h1>
-  <p>{daysUntil === 1 ? "day" : "days"} until driving chassis</p>
+  <p>{daysUntil === 1 ? "day" : "days"} until front wheels mounted</p>
   <p class="currentTime">
     {currentTime ?? "--"}
   </p>
