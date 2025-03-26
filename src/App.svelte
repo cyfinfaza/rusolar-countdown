@@ -8,14 +8,16 @@
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
     } else if (document.exitFullscreen) {
-      document.exitFullscreen(); 
+      document.exitFullscreen();
     }
   }
   function recalculate() {
-    const difference = Math.ceil(
-      (new Date("2025-03-14T00:00:00").getTime() - new Date().getTime()) /
+    let difference = Math.ceil(
+      (new Date("2025-06-29T00:00:00").getTime() - new Date().getTime()) /
         (1000 * 60 * 60 * 24)
     );
+    // difference /= 7;
+    difference = Math.ceil(difference * 10) / 10;
     daysUntil = difference >= 0 ? difference : null;
     currentTime = new Date(Date.now()).toLocaleString().split(",").join(" • ");
   }
@@ -33,6 +35,12 @@
           console.error(`${err.name}, ${err.message}`);
         });
     }
+  }
+  function daysToWeeksFraction(days) {
+    const fractions = ["", "¹⁄₇", "²⁄₇", "³⁄₇", "⁴⁄₇", "⁵⁄₇", "⁶⁄₇"];
+    let weeks = Math.floor(days / 7);
+    let remainder = days % 7;
+    return weeks + (remainder ? fractions[remainder] : "");
   }
   onMount(() => {
     recalculate();
@@ -59,9 +67,9 @@
     }}
     tabindex="0"
   >
-    {daysUntil ?? "--"}
+    {Math.floor(daysUntil / 7) ?? "--"}
   </h1>
-  <p>{daysUntil === 1 ? "day" : "days"} until front wheels mounted</p>
+  <p>{Math.floor(daysUntil / 7) === 1 ? "week" : "weeks"} until FSGP</p>
   <p class="currentTime">
     {currentTime ?? "--"}
   </p>
