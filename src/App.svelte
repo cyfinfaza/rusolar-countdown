@@ -3,6 +3,9 @@
   let daysUntil = null;
   let currentTime = null;
   let wakeLock = false;
+  let reloadTriggered = false;
+
+  const autoReloadTimes = ["04:00", "04:30", "05:00", "20:51"];
 
   function toggleFullScreen() {
     if (!document.fullscreenElement) {
@@ -20,6 +23,15 @@
     difference = Math.ceil(difference * 10) / 10;
     daysUntil = difference >= 0 ? difference : null;
     currentTime = new Date(Date.now()).toLocaleString().split(",").join(" • ");
+    if (autoReloadTimes.includes(new Date().toTimeString().slice(0, 5))) {
+      if (!reloadTriggered && navigator.onLine) {
+        console.log("Reloading in 1 minute");
+        reloadTriggered = true;
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000 * 60);
+      }
+    }
   }
   function attemptWakeLock() {
     if ("wakeLock" in navigator) {
