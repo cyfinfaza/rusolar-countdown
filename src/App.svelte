@@ -1,9 +1,12 @@
 <script>
   import { onMount } from "svelte";
   let daysUntil = null;
+  let weeksUntil = null;
   let currentTime = null;
   let wakeLock = false;
   let reloadTriggered = false;
+
+  const countdownTo = "2025-10-01T00:00:00";
 
   const autoReloadTimes = ["04:00", "04:30", "05:00", "20:51"];
 
@@ -16,22 +19,23 @@
   }
   function recalculate() {
     let difference = Math.ceil(
-      (new Date("2025-06-29T00:00:00").getTime() - new Date().getTime()) /
+      (new Date(countdownTo).getTime() - new Date().getTime()) /
         (1000 * 60 * 60 * 24)
     );
     // difference /= 7;
     difference = Math.ceil(difference * 10) / 10;
     daysUntil = difference >= 0 ? difference : null;
+    weeksUntil = Math.floor(daysUntil / 7);
     currentTime = new Date(Date.now()).toLocaleString().split(",").join(" • ");
-    if (autoReloadTimes.includes(new Date().toTimeString().slice(0, 5))) {
-      if (!reloadTriggered && navigator.onLine) {
-        console.log("Reloading in 1 minute");
-        reloadTriggered = true;
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000 * 60);
-      }
-    }
+    // if (autoReloadTimes.includes(new Date().toTimeString().slice(0, 5))) {
+    //   if (!reloadTriggered && navigator.onLine) {
+    //     console.log("Reloading in 1 minute");
+    //     reloadTriggered = true;
+    //     setTimeout(() => {
+    //       window.location.reload();
+    //     }, 1000 * 60);
+    //   }
+    // }
   }
   function attemptWakeLock() {
     if ("wakeLock" in navigator) {
@@ -79,9 +83,9 @@
     }}
     tabindex="0"
   >
-    {Math.floor(daysUntil / 7) ?? "--"}
+    {daysUntil ?? "--"}
   </h1>
-  <p>{Math.floor(daysUntil / 7) === 1 ? "week" : "weeks"} until FSGP</p>
+  <p>{daysUntil === 1 ? "day" : "days"} until welding done</p>
   <p class="currentTime">
     {currentTime ?? "--"}
   </p>
