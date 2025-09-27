@@ -6,7 +6,7 @@
   let wakeLock = false;
   let reloadTriggered = false;
 
-  const countdownTo = "2025-10-01T00:00:00";
+  const countdownTo = "2025-10-10T00:00:00";
 
   const autoReloadTimes = ["04:00", "04:30", "05:00", "20:51"];
 
